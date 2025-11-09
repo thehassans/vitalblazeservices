@@ -23,22 +23,32 @@ const initDatabase = async () => {
 
     // Initialize Admin User
     console.log('👤 Setting up admin user...');
-    const adminExists = await Admin.findOne({ username: 'vitalservices' });
+    const adminExists = await Admin.findOne({ 
+      $or: [
+        { email: 'vitalservices@vitalblaze.com' },
+        { username: 'vitalservices' }
+      ]
+    });
     
     if (adminExists) {
       console.log('⚠️  Admin user already exists');
+      console.log('   Updating credentials...');
+      adminExists.email = 'vitalservices@vitalblaze.com';
+      adminExists.password = 'vitalservice975312468';
+      await adminExists.save();
+      console.log('✅ Admin credentials updated successfully');
     } else {
       const admin = new Admin({
         username: 'vitalservices',
-        password: 'Hassanvitalblaze123',
-        email: 'info@vitalblaze.com',
+        password: 'vitalservice975312468',
+        email: 'vitalservices@vitalblaze.com',
         role: 'superadmin'
       });
       await admin.save();
       console.log('✅ Admin user created successfully');
-      console.log('   Username: vitalservices');
-      console.log('   Password: Hassanvitalblaze123\n');
     }
+    console.log('   Email: vitalservices@vitalblaze.com');
+    console.log('   Password: vitalservice975312468\n');
 
     // Initialize Services
     console.log('🛠️  Setting up services...');

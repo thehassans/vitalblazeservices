@@ -10,8 +10,8 @@ Your project is now fully configured with MongoDB Atlas:
 
 - **Database**: MongoDB Atlas Cloud
 - **Connection String**: `mongodb+srv://vitalservices:Hassanvitalblaze123@vitalservices.hgqktr5.mongodb.net/`
-- **Admin Username**: `vitalservices`
-- **Admin Password**: `Hassanvitalblaze123`
+- **Admin Email**: `vitalservices@vitalblaze.com`
+- **Admin Password**: `vitalservice975312468`
 
 ---
 
@@ -47,8 +47,8 @@ MONGODB_URI=mongodb+srv://vitalservices:Hassanvitalblaze123@vitalservices.hgqktr
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 
 # Admin Credentials (for reference only, stored in DB)
-ADMIN_USERNAME=vitalservices
-ADMIN_PASSWORD=Hassanvitalblaze123
+ADMIN_EMAIL=vitalservices@vitalblaze.com
+ADMIN_PASSWORD=vitalservice975312468
 
 # Email Configuration (Optional for contact form)
 EMAIL_HOST=smtp.gmail.com
@@ -84,7 +84,7 @@ npm run install-all
 
 This will:
 - Connect to MongoDB Atlas
-- Create admin user: `vitalservices` / `Hassanvitalblaze123`
+- Create admin user: `vitalservices@vitalblaze.com` / `vitalservice975312468`
 - Import all services from `memoryDb.js`
 
 ```bash
@@ -99,8 +99,8 @@ npm run init-db
 
 👤 Setting up admin user...
 ✅ Admin user created successfully
-   Username: vitalservices
-   Password: Hassanvitalblaze123
+   Email: vitalservices@vitalblaze.com
+   Password: vitalservice975312468
 
 🛠️  Setting up services...
 📦 Importing 30 services...
@@ -151,8 +151,8 @@ NODE_ENV=production npm start
 After initialization, you can log in to the admin panel:
 
 - **URL**: `http://localhost:3000/admin`
-- **Username**: `vitalservices`
-- **Password**: `Hassanvitalblaze123`
+- **Email**: `vitalservices@vitalblaze.com`
+- **Password**: `vitalservice975312468`
 
 ---
 
@@ -193,7 +193,7 @@ server/routes/services.js    # Updated to use MongoDB
   _id: ObjectId,
   username: "vitalservices",
   password: "hashed_password",
-  email: "info@vitalblaze.com",
+  email: "vitalservices@vitalblaze.com",
   role: "superadmin",
   isActive: true,
   lastLogin: Date,
@@ -323,7 +323,7 @@ curl http://localhost:5000/api/services
 # Test admin login
 curl -X POST http://localhost:5000/api/admin/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"vitalservices","password":"Hassanvitalblaze123"}'
+  -d '{"email":"vitalservices@vitalblaze.com","password":"vitalservice975312468"}'
 ```
 
 ---
@@ -342,8 +342,8 @@ curl -X POST http://localhost:5000/api/admin/login \
 
 **Solution:**
 1. Run `npm run init-db` to ensure admin is created
-2. Check username: `vitalservices` (not email)
-3. Verify password: `Hassanvitalblaze123` (case-sensitive)
+2. Check email: `vitalservices@vitalblaze.com`
+3. Verify password: `vitalservice975312468` (case-sensitive)
 
 ### **Issue: Services not loading**
 

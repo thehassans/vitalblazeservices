@@ -83,8 +83,8 @@ npm run init-db
 ```
 ✅ MongoDB Connected
 ✅ Admin user created successfully
-   Username: vitalservices
-   Password: Hassanvitalblaze123
+   Email: vitalservices@vitalblaze.com
+   Password: vitalservice975312468
 ✅ Successfully imported 30 services
 ```
 
@@ -114,8 +114,8 @@ cd ..
 
 1. Go to: `https://khewracrafts.com/admin`
 2. Login with:
-   - **Username**: `vitalservices`
-   - **Password**: `Hassanvitalblaze123`
+   - **Email**: `vitalservices@vitalblaze.com`
+   - **Password**: `vitalservice975312468`
 3. You should see the admin dashboard
 
 ---
@@ -125,8 +125,8 @@ cd ..
 | Field | Value |
 |-------|-------|
 | **Admin URL** | `https://khewracrafts.com/admin` |
-| **Username** | `vitalservices` |
-| **Password** | `Hassanvitalblaze123` |
+| **Email** | `vitalservices@vitalblaze.com` |
+| **Password** | `vitalservice975312468` |
 | **Database** | MongoDB Atlas |
 
 ---
@@ -168,8 +168,8 @@ cd client && npm run build && cd ..
 
 **Solution:**
 1. Run `npm run init-db` again to recreate admin user
-2. Username is `vitalservices` (not email)
-3. Password is case-sensitive: `Hassanvitalblaze123`
+2. Email is `vitalservices@vitalblaze.com`
+3. Password is case-sensitive: `vitalservice975312468`
 
 ### **Issue: "Module not found"**
 
