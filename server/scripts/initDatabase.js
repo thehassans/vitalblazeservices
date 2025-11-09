@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const mongoose = require('mongoose');
 const Admin = require('../models/Admin');
 const Service = require('../models/Service');
@@ -11,6 +12,9 @@ const initDatabase = async () => {
     // Connect to MongoDB
     const mongoURI = process.env.MONGODB_URI;
     if (!mongoURI) {
+      console.error('❌ MONGODB_URI not found in environment variables');
+      console.error('📁 Looking for .env file at:', path.join(__dirname, '../../.env'));
+      console.error('💡 Please create a .env file in the project root with MONGODB_URI');
       throw new Error('MONGODB_URI not found in environment variables');
     }
 
