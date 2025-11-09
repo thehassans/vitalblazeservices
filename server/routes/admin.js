@@ -1,68 +1,67 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const Admin = require('../models/Admin');
+const User = require('../models/User');
 const Service = require('../models/Service');
 
 // JWT Secret
-const JWT_SECRET = process.env.JWT_SECRET || 'your-fallback-secret-key-change-this';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Admin login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find admin by username (email field is used as username)
-    const admin = await Admin.findOne({ 
-      $or: [{ username: email }, { email: email }]
-    });
-
-    if (!admin) {
+    // Find user with password field
+    const user = await User.findOne({ email }).select('+password');
+    
+    if (!user) {
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
 
-    // Check if admin is active
-    if (!admin.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: 'Account is disabled'
-      });
-    }
-
-    // Verify password
-    const isMatch = await admin.comparePassword(password);
-    if (!isMatch) {
+    // Check password
+    const isPasswordValid = await user.comparePassword(password);
+    
+    if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
+      });
+    }
+
+    // Check if user is admin
+    if (user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. Admin privileges required.'
       });
     }
 
     // Update last login
-    await admin.updateLastLogin();
+    user.lastLogin = new Date();
+    await user.save();
 
     // Generate JWT token
     const token = jwt.sign(
       { 
-        id: admin._id, 
-        username: admin.username,
-        role: admin.role 
+        userId: user._id, 
+        email: user.email, 
+        role: user.role 
       },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
-
+    
     res.json({
       success: true,
       message: 'Login successful',
       token: token,
-      admin: {
-        username: admin.username,
-        email: admin.email,
-        role: admin.role
+      user: {
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {
@@ -76,18 +75,28 @@ router.post('/login', async (req, res) => {
 
 // Verify JWT middleware
 const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: 'No token provided'
-    });
-  }
-
   try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'No token provided'
+      });
+    }
+
+    // Verify token
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.admin = decoded;
+    
+    // Check if admin
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin access required'
+      });
+    }
+
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({
@@ -100,7 +109,8 @@ const verifyToken = (req, res, next) => {
 // Get all services (protected)
 router.get('/services', verifyToken, async (req, res) => {
   try {
-    const services = await Service.find({ isActive: true }).sort({ id: 1 });
+    const services = await Service.find().sort({ id: 1 });
+    
     res.json({
       success: true,
       services: services
@@ -120,22 +130,18 @@ router.put('/services/:id/price', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { priceSAR, priceGBP } = req.body;
 
-    const service = await Service.findOneAndUpdate(
-      { id: parseInt(id) },
-      { 
-        priceSAR, 
-        priceGBP,
-        updatedAt: new Date()
-      },
-      { new: true }
-    );
-
+    const service = await Service.findOne({ id: parseInt(id) });
+    
     if (!service) {
       return res.status(404).json({
         success: false,
         message: 'Service not found'
       });
     }
+
+    service.priceSAR = priceSAR;
+    service.priceGBP = priceGBP;
+    await service.save();
 
     res.json({
       success: true,
@@ -155,10 +161,9 @@ router.put('/services/:id/price', verifyToken, async (req, res) => {
 router.post('/services/convert', verifyToken, async (req, res) => {
   try {
     const { rate, direction } = req.body;
-    const conversionRate = parseFloat(rate);
+    // direction: 'SAR_TO_GBP' or 'GBP_TO_SAR'
 
-    // Get all services
-    const services = await Service.find({ isActive: true });
+    const services = await Service.find();
     const updatedServices = [];
 
     for (const service of services) {
@@ -171,15 +176,14 @@ router.post('/services/convert', verifyToken, async (req, res) => {
 
       if (direction === 'SAR_TO_GBP') {
         const sarPrice = parseFloat(service.priceSAR.replace(/,/g, ''));
-        const gbpPrice = Math.round(sarPrice * conversionRate);
+        const gbpPrice = Math.round(sarPrice * rate);
         service.priceGBP = gbpPrice.toString();
       } else if (direction === 'GBP_TO_SAR') {
         const gbpPrice = parseFloat(service.priceGBP.replace(/,/g, ''));
-        const sarPrice = Math.round(gbpPrice * conversionRate);
+        const sarPrice = Math.round(gbpPrice * rate);
         service.priceSAR = sarPrice.toString();
       }
 
-      service.updatedAt = new Date();
       await service.save();
       updatedServices.push(service);
     }
@@ -198,8 +202,10 @@ router.post('/services/convert', verifyToken, async (req, res) => {
   }
 });
 
-// Logout (JWT tokens are stateless, so this just returns success)
+// Logout
 router.post('/logout', verifyToken, (req, res) => {
+  // With JWT, logout is handled client-side by removing the token
+  // We just confirm the request
   res.json({
     success: true,
     message: 'Logged out successfully'

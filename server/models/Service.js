@@ -20,9 +20,10 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Description is required']
   },
-  features: [{
-    type: String
-  }],
+  features: {
+    type: [String],
+    default: []
+  },
   icon: {
     type: String,
     default: 'server'
@@ -37,8 +38,8 @@ const serviceSchema = new mongoose.Schema({
   },
   priceType: {
     type: String,
-    enum: ['month', 'year', 'one-time', null],
-    default: null
+    enum: ['month', 'year', 'one-time', ''],
+    default: 'month'
   },
   popular: {
     type: Boolean,
@@ -56,12 +57,18 @@ const serviceSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-}, {
-  timestamps: true
+});
+
+// Update the updatedAt timestamp before saving
+serviceSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 // Index for faster queries
-serviceSchema.index({ category: 1, isActive: 1 });
+serviceSchema.index({ category: 1, popular: -1 });
 serviceSchema.index({ id: 1 });
 
-module.exports = mongoose.model('Service', serviceSchema);
+const Service = mongoose.model('Service', serviceSchema);
+
+module.exports = Service;

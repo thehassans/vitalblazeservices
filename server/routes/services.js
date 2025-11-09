@@ -5,7 +5,8 @@ const Service = require('../models/Service');
 // GET all services
 router.get('/', async (req, res) => {
   try {
-    const services = await Service.find({ isActive: true }).sort({ id: 1 });
+    const services = await Service.find({ isActive: true }).sort({ popular: -1, id: 1 });
+    
     res.json({
       success: true,
       count: services.length,
@@ -25,9 +26,9 @@ router.get('/category/:category', async (req, res) => {
   try {
     const category = req.params.category;
     const services = await Service.find({ 
-      category: new RegExp(category, 'i'),
+      category: new RegExp(`^${category}$`, 'i'),
       isActive: true 
-    }).sort({ id: 1 });
+    }).sort({ popular: -1, id: 1 });
     
     res.json({
       success: true,
@@ -46,10 +47,7 @@ router.get('/category/:category', async (req, res) => {
 // GET service by ID
 router.get('/:id', async (req, res) => {
   try {
-    const service = await Service.findOne({ 
-      id: parseInt(req.params.id),
-      isActive: true 
-    });
+    const service = await Service.findOne({ id: parseInt(req.params.id), isActive: true });
     
     if (!service) {
       return res.status(404).json({

@@ -16,7 +16,6 @@ import {
   Repeat
 } from 'lucide-react';
 import ServicePricingModal from '../components/ServicePricingModal';
-import { API_ENDPOINTS } from '../config/api';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -44,7 +43,7 @@ const AdminDashboard = () => {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(API_ENDPOINTS.ADMIN_SERVICES, {
+      const response = await fetch('http://localhost:5000/api/admin/services', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -85,7 +84,7 @@ const AdminDashboard = () => {
     
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(API_ENDPOINTS.ADMIN_SERVICE_PRICE(serviceId), {
+      const response = await fetch(`http://localhost:5000/api/admin/services/${serviceId}/price`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +118,7 @@ const AdminDashboard = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(API_ENDPOINTS.ADMIN_CONVERT_PRICES, {
+      const response = await fetch('http://localhost:5000/api/admin/services/convert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +147,7 @@ const AdminDashboard = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem('adminToken');
     try {
-      await fetch(API_ENDPOINTS.ADMIN_LOGOUT, {
+      await fetch('http://localhost:5000/api/admin/logout', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

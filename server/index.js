@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
+
+// MongoDB Connection
 const connectDB = require('./config/database');
 
 const app = express();
