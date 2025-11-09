@@ -28,6 +28,8 @@ const AdminDashboard = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [conversionRate, setConversionRate] = useState(5.0);
+  const [conversionDirection, setConversionDirection] = useState('SAR_TO_GBP');
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
