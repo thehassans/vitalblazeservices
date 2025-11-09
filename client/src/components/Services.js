@@ -193,7 +193,7 @@ const Services = () => {
             <br />
             <span className="text-gradient">{language === 'ar' ? 'لأعمالك' : 'For Your Business'}</span>
           </h2>
-          {t('servicesDescription') && (
+          {t('servicesDescription') && t('servicesDescription') !== 'servicesDescription' && t('servicesDescription').trim() !== '' && (
             <p className="section-description fade-in">
               {t('servicesDescription')}
             </p>

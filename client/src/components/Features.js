@@ -49,7 +49,7 @@ const Features = () => {
             <br />
             <span className="text-gradient">{t('featuresSubtitle2')}</span>
           </h2>
-          {t('featuresDescription') && (
+          {t('featuresDescription') && t('featuresDescription') !== 'featuresDescription' && t('featuresDescription').trim() !== '' && (
             <p className="section-description fade-in">
               {t('featuresDescription')}
             </p>
