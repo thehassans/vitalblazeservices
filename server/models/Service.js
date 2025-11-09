@@ -13,8 +13,8 @@ const serviceSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: [true, 'Category is required'],
-    enum: ['Hosting & Servers', 'Domains & SSL', 'Business Solutions', 'E-Commerce']
+    required: [true, 'Category is required']
+    // No enum validation - allow any category
   },
   description: {
     type: String,
@@ -38,8 +38,8 @@ const serviceSchema = new mongoose.Schema({
   },
   priceType: {
     type: String,
-    enum: ['month', 'year', 'one-time', ''],
-    default: 'month'
+    enum: ['mo', 'month', 'yr', 'year', 'one-time', '', null],
+    default: null
   },
   popular: {
     type: Boolean,
