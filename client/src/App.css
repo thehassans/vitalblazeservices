@@ -99,3 +99,39 @@ body.rtl * {
 body.rtl {
   font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
 }
+
+/* Mobile Container Improvements */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ensure all text sections are centered and properly aligned */
+  .section-header {
+    text-align: center;
+  }
+
+  .section-title,
+  .section-description {
+    text-align: center;
+  }
+
+  /* Prevent text overflow */
+  * {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  /* Smaller text for very small screens */
+  body {
+    font-size: 15px;
+  }
+}
