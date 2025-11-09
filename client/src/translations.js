@@ -22,14 +22,14 @@ export const translations = {
     // Services Section
     servicesTitle: "Our Services",
     servicesSubtitle: "Comprehensive Solutions",
-    servicesDescription: "From web hosting to complete business systems, we provide everything you need to succeed online.",
+    servicesDescription: "",
     viewDetails: "View Details",
     
     // Features Section
     featuresTitle: "Why Choose Us",
     featuresSubtitle: "Built for Performance",
     featuresSubtitle2: "Designed for Growth",
-    featuresDescription: "We provide enterprise-grade infrastructure and support to help your business thrive",
+    featuresDescription: "",
     lightningFast: "Lightning Fast",
     lightningFastDesc: "Experience blazing-fast load times with our optimized infrastructure and CDN integration.",
     enterpriseSecurity: "Enterprise Security",
@@ -226,14 +226,14 @@ export const translations = {
     // Services Section
     servicesTitle: "خدماتنا",
     servicesSubtitle: "حلول شاملة",
-    servicesDescription: "من استضافة الويب إلى أنظمة الأعمال الكاملة، نوفر كل ما تحتاجه للنجاح عبر الإنترنت.",
+    servicesDescription: "",
     viewDetails: "عرض التفاصيل",
     
     // Features Section
     featuresTitle: "لماذا تختارنا",
     featuresSubtitle: "مبني للأداء",
     featuresSubtitle2: "مصمم للنمو",
-    featuresDescription: "نوفر بنية تحتية ودعم على مستوى المؤسسات لمساعدة عملك على الازدهار",
+    featuresDescription: "",
     lightningFast: "سرعة فائقة",
     lightningFastDesc: "استمتع بأوقات تحميل سريعة للغاية من خلال البنية التحتية المحسّنة وتكامل CDN.",
     enterpriseSecurity: "أمان على مستوى المؤسسات",

@@ -28,6 +28,9 @@
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section-badge {
@@ -38,7 +41,7 @@
   border-radius: 50px;
   font-size: 0.875rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   border: 2px solid var(--primary-light);
   box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
   text-transform: uppercase;
@@ -51,12 +54,21 @@
   line-height: 1.2;
   margin-bottom: 1rem;
   letter-spacing: -1px;
+  text-align: center;
+  width: 100%;
 }
 
 .section-description {
   font-size: 1.125rem;
   color: var(--text-secondary);
   line-height: 1.7;
+  text-align: center;
+  width: 100%;
+}
+
+.section-description:empty {
+  display: none;
+  margin: 0;
 }
 
 .currency-toggle {
