@@ -193,9 +193,11 @@ const Services = () => {
             <br />
             <span className="text-gradient">{language === 'ar' ? 'لأعمالك' : 'For Your Business'}</span>
           </h2>
-          <p className="section-description fade-in">
-            {t('servicesDescription')}
-          </p>
+          {t('servicesDescription') && (
+            <p className="section-description fade-in">
+              {t('servicesDescription')}
+            </p>
+          )}
         </div>
 
         <div className="currency-toggle fade-in">

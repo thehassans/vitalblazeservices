@@ -49,9 +49,11 @@ const Features = () => {
             <br />
             <span className="text-gradient">{t('featuresSubtitle2')}</span>
           </h2>
-          <p className="section-description fade-in">
-            {t('featuresDescription')}
-          </p>
+          {t('featuresDescription') && (
+            <p className="section-description fade-in">
+              {t('featuresDescription')}
+            </p>
+          )}
         </div>
 
         <div className="features-grid">
