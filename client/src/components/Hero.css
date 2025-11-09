@@ -77,6 +77,8 @@
 
 .hero-badge svg {
   color: var(--success);
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .hero-title {
