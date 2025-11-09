@@ -12,6 +12,7 @@ import {
   Repeat,
   RefreshCw
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 import './AdminDashboard.css';
 
 const AdminCurrency = () => {
@@ -35,7 +36,7 @@ const AdminCurrency = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/admin/services/convert', {
+      const response = await fetch(API_ENDPOINTS.ADMIN_CONVERT_PRICES, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ const AdminCurrency = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem('adminToken');
     try {
-      await fetch('http://localhost:5000/api/admin/logout', {
+      await fetch(API_ENDPOINTS.ADMIN_LOGOUT, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
