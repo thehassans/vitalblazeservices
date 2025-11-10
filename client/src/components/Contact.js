@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
+import config from '../config';
 import './Contact.css';
 
 const Contact = () => {
@@ -28,7 +29,7 @@ const Contact = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await axios.post('/api/contact', formData);
+      const response = await axios.post(`${config.API_BASE_URL}/api/contact`, formData);
       
       if (response.data.success) {
         setStatus({

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
+import config from '../config';
 import { 
   Server, Globe, ShieldCheck, Lock, UploadCloud, Layout, 
   Code, Wrench, Users, Brain, ShoppingCart, Layers, Shield, HardDrive, Database,
@@ -49,7 +50,7 @@ const Services = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('/api/services');
+      const response = await axios.get(`${config.API_BASE_URL}/api/services`);
       setServices(response.data.data);
       setLoading(false);
     } catch (error) {

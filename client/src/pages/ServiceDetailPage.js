@@ -5,6 +5,7 @@ import {
   ArrowLeft, Clock, CheckCircle, Star, Shield, Zap, Award,
   Headphones, Lock, Rocket, Target, BarChart3, Settings
 } from 'lucide-react';
+import config from '../config';
 import { getServiceDetails } from '../data/serviceDetails';
 import VPSConfigurator from '../components/VPSConfigurator';
 import DedicatedServerConfigurator from '../components/DedicatedServerConfigurator';
@@ -31,7 +32,7 @@ const ServiceDetailPage = () => {
 
   const fetchServiceDetail = async () => {
     try {
-      const response = await axios.get(`/api/services/${id}`);
+      const response = await axios.get(`${config.API_BASE_URL}/api/services/${id}`);
       setService(response.data.data);
       setLoading(false);
     } catch (error) {
