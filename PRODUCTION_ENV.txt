@@ -1,0 +1,39 @@
+====================================================
+PRODUCTION .env FILE FOR khewracrafts.com
+====================================================
+
+Copy this EXACT content into your .env file:
+
+PORT=3000
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority&appName=vitalservices
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=vitalservice975312468
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=noreply@khewracrafts.com
+EMAIL_TO=info@khewracrafts.com
+CLIENT_URL=https://khewracrafts.com
+ALLOWED_ORIGINS=https://khewracrafts.com,https://www.khewracrafts.com
+SESSION_SECRET=vitalblaze-session-secret-key-2024
+JWT_SECRET=vitalblaze-jwt-secret-key-2024
+
+====================================================
+FOR PLESK ENVIRONMENT VARIABLES:
+====================================================
+
+Add these in Node.js → Custom Environment Variables:
+
+MONGODB_URI=mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority&appName=vitalservices
+NODE_ENV=production
+PORT=3000
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=vitalservice975312468
+CLIENT_URL=https://khewracrafts.com
+ALLOWED_ORIGINS=https://khewracrafts.com,https://www.khewracrafts.com
+SESSION_SECRET=vitalblaze-session-secret-key-2024
+JWT_SECRET=vitalblaze-jwt-secret-key-2024
+
+====================================================
