@@ -9,7 +9,7 @@ require('dotenv').config();
 const connectDB = require('./config/database');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;  // Default to 3000
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Connect to MongoDB

@@ -1,8 +1,5 @@
-// API Configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? window.location.origin  // Use same domain in production
-    : 'http://localhost:3000' // Use localhost:3000 in development
-  );
+// API Configuration - Simple: Always use relative paths
+// The server serves both frontend and API, so we just use relative URLs
+const API_BASE_URL = '';
 
 export default API_BASE_URL;
