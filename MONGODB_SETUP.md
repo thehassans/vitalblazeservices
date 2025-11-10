@@ -1,71 +1,41 @@
-# MongoDB Setup Guide
+# 🚀 MongoDB Setup Guide - VitalServices
 
-Complete guide to set up MongoDB for VitalBlaze Services project.
-
----
-
-## 📋 Prerequisites
-
-- Node.js installed
-- MongoDB Atlas account (or local MongoDB)
-- Your MongoDB connection string
-
----
-
-## 🔑 Your MongoDB Credentials
-
-**MongoDB URI:**
+## ✅ **Your MongoDB Connection String**
 ```
-mongodb+srv://vitalservices:<db_password>@vitalservices.hgqktr5.mongodb.net/?appName=vitalservices
+mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/?appName=vitalservices
 ```
 
-**Admin Credentials:**
-- Email: `vitalservices@vitalblaze.com`
-- Password: `vitalservice975312468`
-
 ---
 
-## 🚀 Quick Setup (5 Steps)
+## 📋 **Step-by-Step Setup**
 
-### Step 1: Install Dependencies
+### **1. Create `.env` File**
+
+Create a file named `.env` in the root directory:
 
 ```bash
+# Navigate to project root
 cd C:\Users\buysialllc\Desktop\VitalServices
-npm install
+
+# Create .env file (Windows)
+type nul > .env
 ```
 
-This installs:
-- `mongoose` - MongoDB ODM
-- `bcryptjs` - Password hashing
-- `jsonwebtoken` - JWT authentication
-- `express-session` - Session management
+Add this content to `.env`:
 
----
-
-### Step 2: Create `.env` File
-
-Create a file named `.env` in the project root:
-
-```bash
-# Copy this content to .env file
-
+```env
 # Server Configuration
 PORT=5000
 NODE_ENV=development
 
-# MongoDB Database Configuration
-MONGODB_URI=mongodb+srv://vitalservices:YOUR_MONGODB_PASSWORD@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority
-# Replace YOUR_MONGODB_PASSWORD with your actual MongoDB password
+# MongoDB Atlas Connection
+MONGODB_URI=mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority&appName=vitalservices
 
 # Admin Credentials
-ADMIN_EMAIL=vitalservices@vitalblaze.com
+ADMIN_USERNAME=admin
 ADMIN_PASSWORD=vitalservice975312468
 
-# Security Keys (generate random strings for production)
-SESSION_SECRET=vital-session-secret-key-change-in-production
-JWT_SECRET=vital-jwt-secret-key-change-in-production
-
-# Email Configuration (for contact form)
+# Email Configuration (optional for now)
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your-email@gmail.com
@@ -76,319 +46,280 @@ EMAIL_TO=info@vitalblaze.com
 # CORS Configuration
 CLIENT_URL=http://localhost:3000
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5000
-```
 
-**Important:** Replace `YOUR_MONGODB_PASSWORD` with your actual MongoDB password!
+# Security Keys
+SESSION_SECRET=vitalblaze-session-secret-key-2024
+JWT_SECRET=vitalblaze-jwt-secret-key-2024
+```
 
 ---
 
-### Step 3: Initialize Database
-
-Run the initialization script to create admin user and import services:
+### **2. Install Dependencies**
 
 ```bash
-npm run init-db
+# Install backend dependencies (including mongoose)
+npm install
+
+# Install frontend dependencies
+cd client
+npm install
+cd ..
 ```
 
-This will:
-- ✅ Connect to MongoDB
-- ✅ Create admin user (vitalservices@vitalblaze.com)
-- ✅ Import all 20+ services from memoryDb
-- ✅ Set up indexes
+---
+
+### **3. Seed Database**
+
+Populate MongoDB with all services:
+
+```bash
+npm run seed
+```
 
 **Expected Output:**
 ```
+🌱 Starting database seeding...
 ✅ Connected to MongoDB
-✅ Admin user created successfully
-   Email: vitalservices@vitalblaze.com
-   Password: vitalservice975312468
-📦 Importing services...
-✅ Services imported: 20
-📊 Total services in database: 20
-🎉 Database initialization complete!
+🗑️  Cleared existing services
+✅ Successfully seeded 18 services
+
+📊 Seeded Services:
+   - VPS Hosting (ID: 3)
+   - Dedicated Servers (ID: 4)
+   - Domain Registration (ID: 5)
+   ...
+   - Android & iOS App Development (ID: 22)
+
+🎉 Database seeding completed successfully!
 ```
 
 ---
 
-### Step 4: Start the Server
+### **4. Start Development Server**
 
+```bash
+# Start backend only
+npm run server
+
+# OR start both backend and frontend
+npm run dev
+```
+
+---
+
+## 🔧 **Project Structure**
+
+```
+VitalServices/
+├── .env                              # ⭐ YOUR CREDENTIALS (created)
+├── server/
+│   ├── config/
+│   │   └── database.js              # ✅ MongoDB connection
+│   ├── models/
+│   │   └── Service.js               # ✅ Service schema
+│   ├── seeders/
+│   │   └── serviceSeeder.js         # ✅ Database seeder
+│   ├── routes/
+│   │   ├── services.js              # ✅ Updated to use MongoDB
+│   │   ├── admin.js                 # ✅ Updated to use MongoDB
+│   │   └── contact.js               # Unchanged
+│   └── index.js                     # ✅ Updated with DB connection
+└── package.json                     # ✅ Added mongoose dependency
+```
+
+---
+
+## 📊 **MongoDB Collections**
+
+### **Services Collection**
+```javascript
+{
+  id: Number,              // Unique service ID (3, 4, 5, ...)
+  category: String,        // 'Hosting & Servers', 'Business Solutions', etc.
+  name: String,            // Service name
+  description: String,     // Service description
+  features: [String],      // Array of features
+  priceSAR: String,        // SAR price
+  priceGBP: String,        // GBP price
+  priceType: String,       // 'mo', 'yr', null
+  icon: String,            // Icon name
+  popular: Boolean,        // Featured flag
+  createdAt: Date,         // Auto-generated
+  updatedAt: Date          // Auto-generated
+}
+```
+
+---
+
+## 🎯 **Testing the Setup**
+
+### **1. Check MongoDB Connection**
+
+Start the server:
 ```bash
 npm run server
 ```
 
-Or for development with auto-reload:
-```bash
-npm run dev
-```
-
-**Expected Output:**
+Look for:
 ```
 ✅ MongoDB Connected: vitalservices.hgqktr5.mongodb.net
-📊 Database: vitalservices
-🟢 Mongoose connected to MongoDB
-Server running on port 5000
+📦 Database: vitalservices
+Server is running on port 5000
 ```
 
----
-
-### Step 5: Test Admin Login
-
-1. Navigate to: `http://localhost:3000/admin`
-2. Login with:
-   - Email: `vitalservices@vitalblaze.com`
-   - Password: `vitalservice975312468`
-3. You should see the Admin Dashboard
-
----
-
-## 📁 MongoDB Structure
-
-### Collections Created:
-
-#### 1. **users**
-```javascript
-{
-  email: "vitalservices@vitalblaze.com",
-  password: "hashed_password",
-  role: "admin",
-  isActive: true,
-  lastLogin: Date,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-#### 2. **services**
-```javascript
-{
-  id: 3,
-  name: "VPS Hosting",
-  category: "Hosting & Servers",
-  description: "...",
-  features: ["...", "..."],
-  icon: "hard-drive",
-  priceSAR: "99",
-  priceGBP: "20",
-  priceType: "month",
-  popular: false,
-  isActive: true,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
----
-
-## 🔐 Security Features
-
-### Password Security
-- Passwords are hashed using `bcryptjs` with salt rounds (10)
-- Never stored in plain text
-- Automatic hashing on user creation
-
-### JWT Authentication
-- 24-hour token expiration
-- Role-based access control
-- Secure token verification
-
-### API Protection
-- All admin routes require valid JWT token
-- Token must contain admin role
-- Automatic token expiration handling
-
----
-
-## 🛠️ Database Scripts
-
-### Initialize/Re-initialize Database
-```bash
-npm run init-db
-```
-
-### Check Database Connection
-The health endpoint shows MongoDB status:
-```bash
-GET http://localhost:5000/api/health
-```
-
----
-
-## 📊 API Endpoints (MongoDB)
-
-### Public Endpoints
+### **2. Test API Endpoints**
 
 **Get all services:**
-```
-GET /api/services
+```bash
+curl http://localhost:5000/api/services
 ```
 
 **Get service by ID:**
-```
-GET /api/services/:id
+```bash
+curl http://localhost:5000/api/services/12
 ```
 
 **Get services by category:**
-```
-GET /api/services/category/:category
-```
-
-### Admin Endpoints (Require JWT)
-
-**Admin login:**
-```
-POST /api/admin/login
-Body: { "email": "...", "password": "..." }
-```
-
-**Get all services:**
-```
-GET /api/admin/services
-Headers: { "Authorization": "Bearer <token>" }
-```
-
-**Update service price:**
-```
-PUT /api/admin/services/:id/price
-Headers: { "Authorization": "Bearer <token>" }
-Body: { "priceSAR": "...", "priceGBP": "..." }
-```
-
-**Convert all prices:**
-```
-POST /api/admin/services/convert
-Headers: { "Authorization": "Bearer <token>" }
-Body: { "rate": 0.2, "direction": "SAR_TO_GBP" }
+```bash
+curl http://localhost:5000/api/services/category/Business%20Solutions
 ```
 
 ---
 
-## 🌐 Plesk/Production Setup
+## 🔐 **Admin Panel**
 
-### Environment Variables in Plesk
+### **Login Credentials:**
+- **Email:** `vitalservices@vitalblaze.com`
+- **Password:** `vitalservice975312468`
 
-Go to: **Node.js > Custom environment variables**
-
-Add these variables:
+### **Access:**
 ```
-PORT=3000
+http://localhost:3000/admin
+```
+
+### **Features:**
+- View all services
+- Update service prices
+- Bulk currency conversion
+- Real-time MongoDB updates
+
+---
+
+## 🌐 **For Production (Plesk)**
+
+### **Add to Plesk Environment Variables:**
+
+```env
+MONGODB_URI=mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority&appName=vitalservices
 NODE_ENV=production
-MONGODB_URI=mongodb+srv://vitalservices:YOUR_PASSWORD@vitalservices.hgqktr5.mongodb.net/vitalservices?retryWrites=true&w=majority
-ADMIN_EMAIL=vitalservices@vitalblaze.com
+PORT=3000
+ADMIN_USERNAME=admin
 ADMIN_PASSWORD=vitalservice975312468
-SESSION_SECRET=generate-32-char-random-string
-JWT_SECRET=generate-32-char-random-string
 CLIENT_URL=https://khewracrafts.com
 ALLOWED_ORIGINS=https://khewracrafts.com,https://www.khewracrafts.com
+SESSION_SECRET=vitalblaze-session-secret-key-2024
+JWT_SECRET=vitalblaze-jwt-secret-key-2024
 ```
 
-### Initialize Database on Server
+### **Deployment Steps:**
 
-SSH into your Plesk server:
 ```bash
+# 1. Push to GitHub
+git add .
+git commit -m "Setup MongoDB Atlas integration"
+git push origin main
+
+# 2. On Plesk server
 cd /var/www/vhosts/khewracrafts.com/httpdocs
-npm run init-db
+git pull origin main
+npm install
+npm run seed  # Run once to populate database
+cd client
+npm run build
+# Restart Node.js app in Plesk
 ```
 
 ---
 
-## 🔍 Troubleshooting
+## ❌ **Troubleshooting**
 
-### "MongoNetworkError: failed to connect"
-- Check your MongoDB password in `.env`
-- Ensure MongoDB Atlas allows connections from your IP
-- Verify the connection string format
+### **Error: "MONGODB_URI is not defined"**
+✅ **Solution:** Create `.env` file with MongoDB connection string
 
-### "Admin user already exists"
-- This is normal if you run `init-db` multiple times
-- The script skips existing admin users
+### **Error: "Failed to connect to MongoDB"**
+✅ **Solution:** Check internet connection and MongoDB Atlas whitelist
+- Go to MongoDB Atlas → Network Access
+- Add IP Address: `0.0.0.0/0` (allow all)
 
-### "Services already exist"
-- The script only imports new services
-- It skips services with existing IDs
-
-### "JWT must be provided"
-- Ensure you're sending the Authorization header
-- Check token format: `Bearer <your-token>`
-
-### "Invalid or expired token"
-- Tokens expire after 24 hours
-- Login again to get a new token
-
----
-
-## 📝 File Structure
-
+### **Error: "Services not found"**
+✅ **Solution:** Run database seeder
+```bash
+npm run seed
 ```
-VitalServices/
-├── server/
-│   ├── config/
-│   │   └── database.js          # MongoDB connection
-│   ├── models/
-│   │   ├── User.js              # User model with password hashing
-│   │   └── Service.js           # Service model
-│   ├── routes/
-│   │   ├── admin.js             # Admin routes (JWT protected)
-│   │   ├── services.js          # Service routes (MongoDB)
-│   │   └── contact.js           # Contact routes
-│   ├── scripts/
-│   │   └── initDatabase.js      # Database initialization
-│   └── index.js                 # Server entry (connects to MongoDB)
-├── .env                         # Environment variables (create this!)
-├── .env.example                 # Environment template
-└── MONGODB_SETUP.md             # This file
+
+### **Error: "Cannot find module 'mongoose'"**
+✅ **Solution:** Install dependencies
+```bash
+npm install
 ```
 
 ---
 
-## ✅ Verification Checklist
+## 📈 **Database Management**
 
-- [ ] Dependencies installed (`npm install`)
-- [ ] `.env` file created with MongoDB credentials
-- [ ] Database initialized (`npm run init-db`)
-- [ ] Server starts without errors
-- [ ] Can login to admin panel
-- [ ] Services load on main page
-- [ ] Can update service prices from admin panel
-
----
-
-## 🎯 Next Steps
-
-1. **Change Admin Password** (in production):
-   - Update `ADMIN_PASSWORD` in `.env`
-   - Run `npm run init-db` again
-   - Or update directly in MongoDB
-
-2. **Generate Secure Keys**:
-   ```bash
-   # Generate SESSION_SECRET
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-   
-   # Generate JWT_SECRET
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+### **View Database (MongoDB Compass)**
+1. Download MongoDB Compass
+2. Connect with URI:
    ```
+   mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/
+   ```
+3. Select database: `vitalservices`
+4. View collection: `services`
 
-3. **Configure Email** (for contact form):
-   - Set up Gmail App Password
-   - Update EMAIL_* variables in `.env`
+### **Re-seed Database**
+```bash
+npm run seed
+```
 
-4. **Deploy to Production**:
-   - Follow DEPLOYMENT_GUIDE.md
-   - Set environment variables in Plesk
-   - Run database initialization on server
-
----
-
-## 📞 Support
-
-For issues:
-- Check server logs
-- Verify MongoDB connection string
-- Ensure all dependencies are installed
-- Check environment variables
-
-**Email:** vitalservices@vitalblaze.com
+### **Backup Database**
+```bash
+# Using mongodump (requires MongoDB tools)
+mongodump --uri="mongodb+srv://vitalservices:vitalblazevitalservice@vitalservices.hgqktr5.mongodb.net/vitalservices"
+```
 
 ---
 
-**🎉 MongoDB setup complete! Your project is now using a production-ready database.**
+## ✅ **Setup Complete Checklist**
+
+- [ ] `.env` file created with MongoDB URI
+- [ ] Dependencies installed (`npm install`)
+- [ ] Database seeded (`npm run seed`)
+- [ ] Server starts without errors
+- [ ] Can fetch services from API
+- [ ] Admin panel accessible
+- [ ] Frontend displays services
+
+---
+
+## 🎉 **You're All Set!**
+
+Your VitalServices application is now connected to MongoDB Atlas!
+
+**Next Steps:**
+1. Start development: `npm run dev`
+2. Access frontend: http://localhost:3000
+3. Access admin: http://localhost:3000/admin
+4. Monitor MongoDB: https://cloud.mongodb.com
+
+---
+
+## 📞 **Support**
+
+If you encounter any issues:
+1. Check console for error messages
+2. Verify `.env` file exists and is correct
+3. Ensure MongoDB Atlas allows connections
+4. Run `npm run seed` to populate database
+
+**MongoDB Atlas Dashboard:** https://cloud.mongodb.com
+**Cluster:** vitalservices.hgqktr5.mongodb.net

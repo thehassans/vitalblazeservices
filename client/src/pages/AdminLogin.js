@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, Shield, Zap, Star, Sparkles } from 'lucide-react';
-import API_BASE_URL from '../config/api';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
@@ -25,7 +24,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+      const response = await fetch('http://localhost:5000/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
