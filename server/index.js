@@ -15,13 +15,13 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Connect to MongoDB
 connectDB();
 
-// CORS Configuration
+// CORS Configuration - Allow all origins in development, specific in production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',') 
-  : ['http://localhost:3000'];
+  : ['*'];
 
 app.use(cors({
-  origin: isProduction ? allowedOrigins : '*',
+  origin: isProduction && allowedOrigins[0] !== '*' ? allowedOrigins : '*',
   credentials: true
 }));
 
@@ -227,9 +227,8 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`${'='.repeat(50)}`);
   console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🌐 Port: ${PORT}`);
-  console.log(`🔗 Local: http://localhost:${PORT}`);
-  console.log(`🌍 CORS Origins: ${allowedOrigins.join(', ')}`);
-  console.log(`📊 Server Status: http://localhost:${PORT}/server-status`);
-  console.log(`❤️  API Health: http://localhost:${PORT}/api/health`);
+  console.log(`🌍 CORS: ${allowedOrigins[0] === '*' ? 'All Origins' : allowedOrigins.join(', ')}`);
+  console.log(`🗄️  Database: MongoDB Atlas`);
+  console.log(`✅ Server ready - listening on all interfaces`);
   console.log(`${'='.repeat(50)}\n`);
 });
